@@ -1,0 +1,477 @@
+
+body{
+            scroll-behavior: smooth;
+            margin:0;
+            background:linear-gradient(180deg,var(--dark) 0%, #111 100%);
+            color:var(--light);
+            font-family: "Aloevera-Regular", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+            overflow-x:hidden;
+        }
+@font-face {
+    font-family: 'Dharma';
+    src: url('../tipografias/DharmaGothicM-Heavy.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Aloevera-Regular';
+    src: url('../tipografias/AloeveraDisplay-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Aloevera-Bold';
+    src: url('../tipografias/AloeveraDisplay-Bold.ttf') format('truetype');
+    font-weight: bold;
+}
+
+.carouselDescription{
+font-family: 'Aloevera-Regular';
+  background: #d9d9d9;
+}
+
+.bg-hero {
+  background: url('../img/hero.jpg') center/cover no-repeat;
+  position: relative;
+  color: #501400;
+}
+
+h1, h2, h3, h4, h5, h6{
+  font-family: 'Dharma';
+  font-size: 34;
+  color: #700811;
+  letter-spacing: 1px;
+}
+
+h1 { font-size: 60px; }
+h2 { font-size: 52px; }
+h3 { font-size: 44px; }
+h4 { font-size: 36px; }
+h5 { font-size: 36px; }
+h6 { font-size: 28px; }
+
+p{
+  font-family: 'Aloevera-Regular';
+  font-size: 22px;
+}
+
+.btn-primary{
+  font-family: 'Aloevera-Regular';
+  background: #700811;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5); /* capa oscura real */
+  pointer-events: none; /* NO bloquea clics */
+  z-index: 1;
+}
+
+.card { 
+  transition: transform .3s;
+  background: var(--muted);
+  color: var(--light);
+ }
+.card:hover { transform: translateY(-8px); }
+.menu-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 2000;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* relación 16:9 */
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    border: 0;
+    max-width: 100%;
+}
+
+
+/*Redes Sociales */
+.form-contacto {
+    position: relative;
+}
+
+/* Posiciona los iconos en la altura exacta del botón */
+.btn-enviar {
+    position: relative;
+}
+
+.social-right {
+    position: absolute;
+    display: flex;
+    gap: 15px;
+    right: 0;
+    top: calc(100% - 38px);   /* Ajuste fino exacto de la altura del botón */
+}
+
+.social-right i {
+    font-size: 35px;
+    color: #700811;
+    transition: transform 0.3s;
+}
+
+.social-right i:hover {
+    transform: scale(1.2);
+}
+
+  /* ================= PALETA INSTITUCIONAL ================= */
+        :root{
+            --vino:#9E1F2A;     /* primario */
+            --marron:#501400;   /* secundario */
+            --light:#dbdbdb;    /* neutro claro */
+            --muted:#4d4d4d;    /* texto secundario */
+            --dark:#333333;     /* texto principal / fondo oscuro */
+            --glass: rgba(255,255,255,0.06);
+        }
+
+        /* ================ RESET & BODY ================ */
+        *{box-sizing:border-box}
+        
+
+        /* ================ VIDEO INTRO ================ */
+        #introVideo{position:fixed;inset:0;width:100vw;height:100vh;object-fit:cover;z-index:9000}
+
+        /* ================ CONTENEDOR PRINCIPAL ================ */
+        #galleryContent{
+            display:none;
+            animation:fadeIn .9s ease forwards;
+        }
+        @keyframes fadeIn{
+            from{opacity:0; transform:translateY(12px);}
+            to{opacity:1; transform:none;}
+        }
+
+        /* ================ CABECERA / LOGO / BOTÓN ================ */
+        .top-bar{
+            position:fixed;
+            left:20px;
+            top:16px;
+            z-index:9995;
+            display:flex;
+            gap:12px;
+            align-items:center;
+        }
+        .logo-wrap{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            background:var(--glass);
+            padding:6px 10px;
+            border-radius:10px;
+            backdrop-filter: blur(4px);
+            border:1px solid rgba(255,255,255,0.04);
+        }
+        .logo-wrap img{ height:36px; width:auto; display:block; border-radius:6px; }
+        .logo-wrap .brand{
+            font-family:'Aloevera-Bold';
+            font-size:0.95rem;
+            color:var(--light);
+            line-height:1;
+        }
+        .btn-back{
+            background:var(--light);
+            color:var(--vino);
+            border:none;
+            padding:8px 12px;
+            border-radius:8px;
+            box-shadow:0 6px 18px rgba(0,0,0,.35);
+            text-decoration:none;
+            font-weight:600;
+        }
+
+        /* ================ CARRUSEL ================ */
+        #carouselWrap{
+            position:relative;
+            width:100vw;
+            height:82vh;
+            overflow:hidden;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            margin-top:8vh;
+        }
+        #mainCarousel{
+            width:100%;
+            max-height:82vh;
+        }
+        #mainCarousel .carousel-inner{ height:82vh; }
+        #mainCarousel img{
+            width:100%;
+            height:82vh;
+            object-fit:cover;
+            display:block;
+            border-bottom:4px solid rgba(0,0,0,.35);
+        }
+
+        /* Descripción superpuesta (cédula de sala) */
+        #carouselDescription{
+            position:absolute;
+            left:32px;
+            bottom:22px;
+            z-index:9980;
+            background:linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.55));
+            padding:12px 16px;
+            border-radius:8px;
+            max-width:55%;
+            color:var(--light);
+            font-size:1rem;
+            backdrop-filter: blur(4px);
+            border:1px solid rgba(255,255,255,0.04);
+            box-shadow:0 6px 20px rgba(0,0,0,.5);
+        }
+        #carouselDescription .title{
+            font-family:'Aloevera-Bold';
+            color:var(--light);
+            font-size:1.05rem;
+            margin-bottom:6px;
+        }
+        #carouselDescription .meta{
+            color:var(--light);
+            opacity:.9;
+            font-size:.9rem;
+        }
+
+        /* Controles adicionales: play/pause, indicators */
+        .carousel-controls{
+            position:absolute;
+            right:28px;
+            bottom:24px;
+            z-index:9980;
+            display:flex;
+            gap:8px;
+            align-items:center;
+        }
+        .control-btn{
+            background:rgba(0,0,0,.46);
+            color:var(--light);
+            border:1px solid rgba(255,255,255,0.06);
+            padding:8px 10px;
+            border-radius:8px;
+            cursor:pointer;
+            font-weight:600;
+            box-shadow:0 6px 18px rgba(0,0,0,.35);
+        }
+        .control-btn:active{ transform:translateY(1px); }
+
+        /* Indicators (small dots) */
+        .carousel-indicators-custom{
+            position:absolute;
+            left:50%;
+            transform:translateX(-50%);
+            bottom:10px;
+            z-index:9980;
+            display:flex;
+            gap:6px;
+        }
+        .carousel-indicators-custom button{
+            width:10px;
+            height:10px;
+            border-radius:50%;
+            background:rgba(255,255,255,0.18);
+            border:none;
+            cursor:pointer;
+        }
+        .carousel-indicators-custom button.active{ background:var(--light); transform:scale(1.15); }
+
+        @media(max-width:900px){
+            #carouselDescription{ max-width:72%; left:14px; right:14px; font-size:.95rem; bottom:14px; }
+            .carousel-controls{ right:12px; bottom:14px; }
+        }
+        @media(max-width:600px){
+            #carouselWrap{ height:64vh; margin-top:56px; }
+            #mainCarousel img{ height:64vh; }
+            #carouselDescription{ display:block; max-width:86%; font-size:.95rem; left:12px; right:12px; }
+        }
+
+        /* ================ MASONRY (exposición) ================ */
+        .masonry{
+            width:100%;
+            padding:26px 36px;
+            margin:18px auto 80px;
+            column-gap:22px;
+            column-count:4;
+            max-width:1400px;
+        }
+
+        .masonry-item{
+            break-inside: avoid;
+            margin:0 0 22px;
+            border-radius:10px;
+            overflow:hidden;
+            background:linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.22));
+            transition:transform .35s ease, box-shadow .35s ease, opacity .45s ease;
+            transform:translateY(10px);
+            opacity:0;
+            border:1px solid rgba(255,255,255,0.03);
+        }
+
+        .masonry-item.visible{
+            transform:none;
+            opacity:1;
+        }
+
+        .masonry-item img{
+            width:100%;
+            height:auto;
+            display:block;
+            transition:transform .4s ease, filter .25s ease;
+        }
+
+        .masonry-item .cardula{
+            padding:10px 12px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:12px;
+            background:linear-gradient(0deg, rgba(0,0,0,0.04), transparent);
+            border-top:1px solid rgba(255,255,255,0.03);
+        }
+        .masonry-item .cardula .title{
+            font-size:0.97rem;
+            font-family:'Aloevera-Bold';
+            color:var(--light);
+        }
+        .masonry-item .cardula .meta{
+            font-size:0.85rem;
+            color:var(--light);
+            opacity:.85;
+        }
+
+        .masonry-item:hover{ transform:translateY(-6px); box-shadow:0 18px 40px rgba(0,0,0,.45); }
+        .masonry-item:hover img{ transform:scale(1.03); filter:brightness(1.03); }
+
+        @media(max-width:1200px){ .masonry{ column-count:3; } }
+        @media(max-width:900px){ .masonry{ column-count:2; padding:18px; } }
+        @media(max-width:600px){ .masonry{ column-count:1; padding:12px; } }
+
+        /* ================ LIGHTBOX AVANZADO ================ */
+        #lightbox{
+            position:fixed;
+            inset:0;
+            background:linear-gradient(rgba(9,9,9,.88), rgba(2,2,2,.94));
+            display:none;
+            align-items:center;
+            justify-content:center;
+            z-index:9999;
+            padding:20px;
+        }
+
+        .lightbox-inner{
+            max-width:1100px;
+            width:100%;
+            display:grid;
+            grid-template-columns: 1fr 360px;
+            gap:18px;
+            align-items:start;
+            justify-items:center;
+        }
+        .lightbox-inner img{
+            width:100%;
+            max-height:80vh;
+            object-fit:contain;
+            border-radius:10px;
+            box-shadow:0 30px 80px rgba(0,0,0,.6);
+        }
+
+        .lightbox-info{
+            width:100%;
+            background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            padding:18px;
+            border-radius:10px;
+            color:var(--light);
+            border:1px solid rgba(255,255,255,0.03);
+        }
+        .lightbox-info h3{ margin:0 0 6px; font-family:'Aloevera-Bold'; }
+        .lightbox-info p{ margin:6px 0; color:var(--light); opacity:.92; font-size:0.95rem; }
+        .lightbox-actions{ display:flex; gap:8px; margin-top:12px; }
+
+        #closeLightbox{
+            position:fixed;
+            top:20px;
+            right:26px;
+            font-size:2.4rem;
+            cursor:pointer;
+            color:var(--light);
+            z-index:10010;
+            background:transparent;
+            border:none;
+        }
+
+        .lightbox-nav{
+            position:fixed;
+            top:50%;
+            transform:translateY(-50%);
+            z-index:10005;
+            font-size:2.8rem;
+            color:var(--light);
+            cursor:pointer;
+            user-select:none;
+            background:rgba(0,0,0,.36);
+            padding:6px 12px;
+            border-radius:8px;
+            border:1px solid rgba(255,255,255,0.03);
+        }
+        #prevBtn{ left:16px; }
+        #nextBtn{ right:16px; }
+
+        @media(max-width:900px){
+            .lightbox-inner{ grid-template-columns: 1fr; }
+            .lightbox-info{ order:2; width:100%; }
+        }
+
+        /* ================ PIE / FOOTER ================ */
+        footer.museum-footer{
+            position:fixed;
+            left:0;
+            bottom:0;
+            width:100%;
+            background:linear-gradient(180deg, rgba(0,0,0,0.22), rgba(0,0,0,0.36));
+            color:var(--light);
+            padding:10px 18px;
+            display:flex;
+            justify-content:space-between;
+            gap:12px;
+            align-items:center;
+            z-index:9980;
+            border-top:1px solid rgba(255,255,255,0.02);
+        }
+        footer .small{ color:var(--light); opacity:.8; font-size:0.92rem; }
+
+        /* ================ ACCESIBILIDAD VISUAL ================ */
+        .sr-only{
+            position:absolute;
+            width:1px;
+            height:1px;
+            padding:0;
+            margin:-1px;
+            overflow:hidden;
+            clip:rect(0,0,0,0);
+            white-space:nowrap;
+            border:0;
+        }

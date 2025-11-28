@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Galería del Museo Comunitario</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="img/isotipo@1.5x.png" type="image/x-icon">
+</head>
+<body>
+
+    <!-- VIDEO INTRO -->
+    <video id="introVideo" autoplay muted playsinline>
+    <source src="video/intro.mp4" type="video/mp4">
+</video>
+
+    <!-- TOP BAR: LOGO + VOLVER -->
+    <div class="top-bar" aria-hidden="false">
+        <div class="logo-wrap" role="img" aria-label="Logo del Museo">
+            <img src="img/isotipo@1.5x.png" alt="Logo del museo">
+            <div class="brand" style="font-family: 'Dharma';letter-spacing: 1px; font-size: x-large;">
+                Checheres y Mamarrachos<br><small style="color:var(--light); opacity:.85; font-size:.78rem;"></small>
+            </div>
+        </div>
+
+        <a class="btn-back" href="index.html" role="button" aria-label="Volver al inicio">Volver</a>
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div id="galleryContent" aria-live="polite">
+
+        <!-- CARRUSEL -->
+        <section id="carouselWrap" aria-label="Carrusel de piezas destacadas">
+            <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000" aria-roledescription="carousel">
+                <div class="carousel-inner"></div>
+            </div>
+
+            <!-- Descripción / cedula de sala -->
+            <div id="carouselDescription" aria-hidden="false">
+                <div class="title">Descripción</div>
+                <div class="meta">Información de la pieza</div>
+            </div>
+
+            <!-- Controles extra -->
+            <div class="carousel-controls" role="toolbar" aria-label="Controles del carrusel">
+                <button id="prevSlide" class="control-btn" title="Anterior" aria-label="Anterior (flecha izquierda)">‹</button>
+                <button id="togglePlay" class="control-btn" title="Pausar/Reanudar" aria-pressed="false" aria-label="Pausar o reanudar la reproducción">⏯</button>
+                <button id="nextSlide" class="control-btn" title="Siguiente" aria-label="Siguiente (flecha derecha)">›</button>
+            </div>
+
+            <!-- indicadores personalizados -->
+            <div class="carousel-indicators-custom" id="carouselIndicators" role="tablist" aria-label="Indicadores de carrusel"></div>
+        </section>
+
+        <!-- MASONRY GRID -->
+        <main>
+            <div class="masonry" id="masonryGrid" aria-label="Galería de piezas"></div>
+        </main>
+    </div>
+
+    <!-- LIGHTBOX -->
+    <div id="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+        <button id="closeLightbox" aria-label="Cerrar">✕</button>
+
+        <div class="lightbox-inner" role="document">
+            <img id="lightboxImg" alt="Pieza ampliada">
+            <div class="lightbox-info" id="lightboxInfo">
+                <h3 id="lbTitle">Título de la pieza</h3>
+                <p id="lbAuthor">Autor · Año · Técnica</p>
+                <p id="lbDesc">Descripción larga de la pieza para la cédula de sala.</p>
+
+                <div class="lightbox-actions">
+                    <button id="lbPrev" class="control-btn" aria-label="Anterior pieza">‹</button>
+                    <button id="lbNext" class="control-btn" aria-label="Siguiente pieza">›</button>
+                    <button id="lbDownload" class="control-btn" aria-label="Descargar imagen">⬇︎</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="museum-footer" role="contentinfo">
+        <div class="small">Museo estudiantil — Checheres y Mamarrachos</div>
+        <div class="small">Contacto: <a href="mailto:museo@universidad.edu.co" style="color:var(--light); text-decoration:underline;">museo@universidad.edu.co</a></div>
+    </footer>
+
+    <!-- BOOTSTRAP -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+    /* =========================
+       DATOS DE LAS PIEZAS (METADATA)
+       Edita títulos, autores y descripciones según necesites.
+       ========================= */
+    const pieces = [
+        /* 1 */ {file:'img/pieza1.jpg', title:'Pieza 1 — Archivo estudiantil', author:'Colectivo A', year:'2019', technique:'Fotografía', short:'Retrato documental de la protesta estudiantil.', long:'Registro fotográfico tomado durante las movilizaciones estudiantiles de 2019. Imagen aportada por el colectivo A.'},
+        /* 2 */ {file:'img/pieza2.jpg', title:'Pieza 2 — Cartel', author:'Anónimo', year:'2020', technique:'Serigrafía', short:'Cartel con consignas del movimiento comunitario.', long:'Cartel realizado por talleres de serigrafía comunitaria. Conservado en la colección del museo.'},
+        /* 3 */ {file:'img/pieza3.jpg', title:'Pieza 3 — Testimonio', author:'Familia B', year:'1987', technique:'Documento', short:'Documento de archivo familiar.', long:'Carta y recortes que registran la memoria familiar en relación con el campus.'},
+        /* 4 */ {file:'img/pieza4.jpg', title:'Pieza 4 — Objeto ritual', author:'Comunidad C', year:'1975', technique:'Objeto', short:'Objeto ceremonial recuperado en investigación etnográfica.', long:'Objeto entregado en custodia por la comunidad C para su preservación.'},
+        /* 5 */ {file:'img/pieza5.jpg', title:'Pieza 5 — Paisaje', author:'J. Bastidas', year:'2021', technique:'Fotografía', short:'Paisaje urbano alrededor de la universidad.', long:'Serie fotográfica que documenta transformaciones urbanas en el barrio.'},
+        /* 6 */ {file:'img/pieza6.jpg', title:'Pieza 6 — Ensayo', author:'Profesor D', year:'2015', technique:'Texto', short:'Fragmento de ensayo sobre memoria y espacio.', long:'Fragmento perteneciente a la investigación "Memoria y Territorio".'},
+        /* 7 */ {file:'img/pieza7.jpg', title:'Pieza 7 — Mural (detalle)', author:'Colectivo M', year:'2018', technique:'Pintura', short:'Detalle de mural recuperado en la cancha comunitaria.', long:'Fragmento documentado antes de intervención urbana.'},
+        /* 8 */ {file:'img/pieza8.jpg', title:'Pieza 8 — Registro sonoro', author:'Archivo sonoro', year:'1999', technique:'Audio', short:'Registro de una asamblea estudiantil.', long:'Grabación original de archivo con testimonios y consignas.'},
+        /* 9 */ {file:'img/pieza9.jpg', title:'Pieza 9 — Objeto cotidiano', author:'Donación local', year:'1968', technique:'Objeto', short:'Utensilio usado en la vida cotidiana del barrio.', long:'Objeto donado por familias locales para conservar prácticas materiales.'},
+        /* 10 */ {file:'img/pieza10.jpg', title:'Pieza 10 — Fotografía aérea', author:'Archivo municipal', year:'2000', technique:'Fotografía', short:'Imagen aérea del campus hace 25 años.', long:'Fotografía aérea que permite comparar transformaciones en el tiempo.'},
+        /* 11 */ {file:'img/pieza11.jpg', title:'Pieza 11 — Objeto educativo', author:'Antiguo laboratorio', year:'1990', technique:'Objeto', short:'Instrumento usado en prácticas docentes.', long:'Instrumento que formó parte del laboratorio histórico de la universidad.'},
+        /* 12 */ {file:'img/pieza12.jpg', title:'Pieza 12 — Collage', author:'Estudiantes', year:'2022', technique:'Collage', short:'Collage de recortes de prensa y fotocopias.', long:'Trabajo colaborativo de estudiantes para la clase de memoria visual.'},
+        /* 13 */ {file:'img/pieza13.jpg', title:'Pieza 13 — Registro audiovisual', author:'Equipo X', year:'2016', technique:'Video', short:'Still de video documental.', long:'Extracto de documental sobre prácticas comunitarias.'},
+        /* 14 */ {file:'img/pieza14.jpg', title:'Pieza 14 — Dibujo', author:'Niños del barrio', year:'2014', technique:'Dibujo', short:'Dibujo infantil del entorno.', long:'Colección de dibujos realizados en talleres con niños y niñas locales.'},
+        /* 15 */ {file:'img/pieza15.jpg', title:'Pieza 15 — Obra colectiva', author:'Varios', year:'2023', technique:'Mixta', short:'Obra hecha en taller abierto.', long:'Trabajo colectivo producido en una jornada de archivo abierto.'}
+    ];
+
+    const totalImages = pieces.length;
+
+    /* =========================
+       INIT: generar carrusel y masonry
+       ========================= */
+    const carouselInner = document.querySelector('#mainCarousel .carousel-inner');
+    const indicatorsWrap = document.getElementById('carouselIndicators');
+    const masonryGrid = document.getElementById('masonryGrid');
+
+    pieces.forEach((p, idx) => {
+        // --- Carousel item ---
+        const item = document.createElement('div');
+        item.className = 'carousel-item' + (idx===0 ? ' active': '');
+        item.setAttribute('data-bs-interval','3000');
+        item.setAttribute('data-index', idx);
+        item.setAttribute('data-title', p.title);
+        item.setAttribute('data-author', `${p.author} · ${p.year} · ${p.technique}`);
+        item.setAttribute('data-desc', p.short);
+
+        const img = document.createElement('img');
+        img.src = p.file;
+        img.alt = p.title + ' — ' + p.author;
+        img.loading = 'lazy';
+        item.appendChild(img);
+        carouselInner.appendChild(item);
+
+        // --- Indicators custom ---
+        const ind = document.createElement('button');
+        ind.title = `Ir a ${idx+1}`;
+        if(idx===0) ind.classList.add('active');
+        ind.addEventListener('click', () => {
+            bootstrap.Carousel.getInstance(document.getElementById('mainCarousel')).to(idx);
+        });
+        indicatorsWrap.appendChild(ind);
+
+        // --- Masonry item ---
+        const wrapper = document.createElement('div');
+        wrapper.className = 'masonry-item';
+        wrapper.setAttribute('tabindex','0');
+        wrapper.setAttribute('data-index', idx);
+
+        const mImg = document.createElement('img');
+        mImg.src = p.file;
+        mImg.alt = p.title + ' — ' + p.author;
+        mImg.loading = 'lazy';
+        wrapper.appendChild(mImg);
+
+        const cardula = document.createElement('div');
+        cardula.className = 'cardula';
+
+        const t = document.createElement('div');
+        t.className='title';
+        t.textContent = p.title;
+
+        const m = document.createElement('div');
+        m.className='meta';
+        m.textContent = p.author + ' · ' + p.year;
+
+        cardula.appendChild(t);
+        cardula.appendChild(m);
+        wrapper.appendChild(cardula);
+
+        // click -> lightbox
+        wrapper.addEventListener('click', () => openLightbox(idx));
+        wrapper.addEventListener('keydown', e => { if(e.key==='Enter') openLightbox(idx); });
+
+        masonryGrid.appendChild(wrapper);
+    });
+
+    /* Initialize Bootstrap carousel instance */
+    const bsCarouselEl = document.getElementById('mainCarousel');
+    const bsCarousel = new bootstrap.Carousel(bsCarouselEl, {
+        interval: 3000,
+        ride: false, // we'll control autoplay with toggle button
+        pause: false,
+        touch: true,
+        wrap: true
+    });
+
+    /* Set initial description */
+    const carouselDescription = document.getElementById('carouselDescription');
+    function updateCarouselDescription(idx){
+        const p = pieces[idx];
+        carouselDescription.querySelector('.title').textContent = p.title;
+        carouselDescription.querySelector('.meta').textContent = `${p.author} · ${p.year} · ${p.technique}`;
+    }
+    updateCarouselDescription(0);
+
+    /* Update indicators on slide */
+    bsCarouselEl.addEventListener('slid.bs.carousel', (e) => {
+        const activeIndex = Array.from(carouselInner.children).findIndex(c => c.classList.contains('active'));
+        Array.from(indicatorsWrap.children).forEach((b,i)=> b.classList.toggle('active', i===activeIndex));
+        updateCarouselDescription(activeIndex);
+    });
+
+    /* Prev / Next buttons outside carousel */
+    document.getElementById('prevSlide').addEventListener('click', () => bsCarousel.prev());
+    document.getElementById('nextSlide').addEventListener('click', () => bsCarousel.next());
+
+    /* Play / Pause toggle for carousel */
+    const togglePlayBtn = document.getElementById('togglePlay');
+    let playing = true;
+    function setPlaying(state){
+        playing = state;
+        togglePlayBtn.setAttribute('aria-pressed', String(!state)); // pressed means paused
+        togglePlayBtn.textContent = state ? '⏯' : '⏯';
+        if(state) bsCarousel.cycle();
+        else bsCarousel.pause();
+    }
+    // Start paused so user controls? We'll start playing but user can pause.
+    setPlaying(true);
+    togglePlayBtn.addEventListener('click', () => setPlaying(!playing));
+
+    /* Keyboard for carousel control when not in lightbox */
+    document.addEventListener('keydown', (e) => {
+        if(document.getElementById('lightbox').style.display === 'flex') return; // lightbox handles keys
+        if(e.key === 'ArrowRight') bsCarousel.next();
+        if(e.key === 'ArrowLeft') bsCarousel.prev();
+        if(e.key === ' ') { e.preventDefault(); setPlaying(!playing); } // space toggles play/pause
+    });
+
+    /* =========================
+       LIGHTBOX: abrir, cerrar, nav, download
+       ========================= */
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lbTitle = document.getElementById('lbTitle');
+    const lbAuthor = document.getElementById('lbAuthor');
+    const lbDesc = document.getElementById('lbDesc');
+    const lbPrev = document.getElementById('lbPrev');
+    const lbNext = document.getElementById('lbNext');
+    const lbDownload = document.getElementById('lbDownload');
+    const closeLightboxBtn = document.getElementById('closeLightbox');
+    let currentIndex = 0;
+
+    function openLightbox(i){
+        currentIndex = i;
+        const p = pieces[i];
+        lightboxImg.src = p.file;
+        lightboxImg.alt = p.title + ' — ' + p.author;
+        lbTitle.textContent = p.title;
+        lbAuthor.textContent = `${p.author} · ${p.year} · ${p.technique}`;
+        lbDesc.textContent = p.long;
+        lightbox.style.display = 'flex';
+        lightbox.setAttribute('aria-hidden','false');
+        document.body.style.overflow = 'hidden';
+        // focus for accessibility
+        closeLightboxBtn.focus();
+    }
+
+    function closeLightbox(){
+        lightbox.style.display = 'none';
+        lightbox.setAttribute('aria-hidden','true');
+        document.body.style.overflow = '';
+    }
+
+    function nextImage(){
+        currentIndex = (currentIndex + 1) % totalImages;
+        openLightbox(currentIndex);
+    }
+    function prevImage(){
+        currentIndex = (currentIndex - 1 + totalImages) % totalImages;
+        openLightbox(currentIndex);
+    }
+
+    lbNext.addEventListener('click', nextImage);
+    lbPrev.addEventListener('click', prevImage);
+    closeLightboxBtn.addEventListener('click', closeLightbox);
+
+    lbDownload.addEventListener('click', () => {
+        // descarga simple abriendo en nueva pestaña (puedes reemplazar con blob si quieres)
+        const url = pieces[currentIndex].file;
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = pieces[currentIndex].file.split('/').pop();
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+    });
+
+    // keyboard in lightbox
+    document.addEventListener('keydown', (e) => {
+        if(lightbox.style.display === 'flex'){
+            if(e.key === 'ArrowRight') nextImage();
+            if(e.key === 'ArrowLeft') prevImage();
+            if(e.key === 'Escape') closeLightbox();
+        }
+    });
+
+    // click outside image closes
+    lightbox.addEventListener('click', (e) => {
+        if(e.target === lightbox) closeLightbox();
+    });
+
+    /* =========================
+       ANIMACIONES DE MASONRY (IntersectionObserver)
+       ========================= */
+    const masonryItems = document.querySelectorAll('.masonry-item');
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting){
+                entry.target.classList.add('visible');
+                io.unobserve(entry.target);
+            }
+        });
+    }, {root:null, rootMargin:'0px', threshold:0.08});
+
+    masonryItems.forEach(it => io.observe(it));
+
+    /* =========================
+       Mejoras de usabilidad: actualizar indicadores si se hace click en masonry (mostrar en carrusel)
+       ========================= */
+    document.querySelectorAll('.masonry-item').forEach(mi => {
+        mi.addEventListener('click', () => {
+            const idx = Number(mi.dataset.index);
+            bsCarousel.to(idx);
+            // scroll to top so carrusel is visible on small screens
+            window.scrollTo({top:0, behavior:'smooth'});
+        });
+    });
+
+    /* =========================
+       Si el video falla o termina, mostramos contenido
+       ========================= */
+    const introVideo = document.getElementById('introVideo');
+    introVideo.addEventListener('ended', () => {
+        introVideo.style.display = 'none';
+        document.getElementById('galleryContent').style.display = 'block';
+    });
+    introVideo.addEventListener('error', () => {
+        introVideo.style.display = 'none';
+        document.getElementById('galleryContent').style.display = 'block';
+    });
+
+    // Si el video no se carga (mobile autoplay blocked), mostrar contenido después de 1.2s
+    setTimeout(() => {
+        if(introVideo.readyState === 0 || introVideo.paused){
+            introVideo.style.display = 'none';
+            document.getElementById('galleryContent').style.display = 'block';
+        }
+    }, 1200);
+
+    /* =========================
+       Inicial: mostrar contenido si JS corre bien
+       ========================= */
+    // Si el video existe y está reproduciéndose, lo dejamos; si no, mostramos galería
+    
+    const video = document.getElementById("introVideo");
+    const gallery = document.getElementById("galleryContent");
+
+    // Mostrar galería solo cuando termine el video
+    video.onended = () => {
+        video.style.display = "none";
+        gallery.style.display = "block";
+    };
+
+    // Si el video NO carga, se pasa directo a la galería
+    video.onerror = () => {
+        console.warn("El video no se pudo cargar. Se muestra la galería directamente.");
+        video.style.display = "none";
+        gallery.style.display = "block";
+    };
+
+    // Si autoplay falla (común en móviles), forzar fallback:
+    setTimeout(() => {
+        if (video.currentTime === 0) { 
+            console.warn("Autoplay falló. Mostrando galería.");
+            video.style.display = "none";
+            gallery.style.display = "block";
+        }
+    }, 1500);
+    </script>
+</body>
+</html>
