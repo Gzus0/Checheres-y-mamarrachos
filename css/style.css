@@ -43,7 +43,7 @@ font-family: 'Aloevera-Regular';
 h1, h2, h3, h4, h5, h6{
   font-family: 'Dharma';
   font-size: 34;
-  color: #700811;
+  color: var(--vino);
   letter-spacing: 1px;
 }
 
@@ -61,7 +61,7 @@ p{
 
 .btn-primary{
   font-family: 'Aloevera-Regular';
-  background: #700811;
+  background: var(--vino);
 }
 
 .overlay {
@@ -132,7 +132,7 @@ p{
 
 .social-right i {
     font-size: 35px;
-    color: #700811;
+    color: var(--vino);
     transition: transform 0.3s;
 }
 
@@ -150,7 +150,6 @@ p{
             --glass: rgba(255,255,255,0.06);
         }
 
-        /* ================ RESET & BODY ================ */
         *{box-sizing:border-box}
         
 
